@@ -1,0 +1,18 @@
+{
+    "files.associations": {
+        "random": "cpp",
+        "*.rh": "cpp",
+        "plglinternal.h": "c",
+        "sdl_opengles2.h": "c",
+        "*.inc": "c",
+        "atomic": "c",
+        "*.tcc": "c",
+        "iomanip": "c",
+        "istream": "c",
+        "ostream": "c",
+        "charconv": "c",
+        "format": "c",
+        "ios": "c",
+        "locale": "c"
+    }
+}
