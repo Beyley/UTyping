@@ -13,6 +13,10 @@
         "charconv": "c",
         "format": "c",
         "ios": "c",
-        "locale": "c"
+        "locale": "c",
+        "__config": "c",
+        "cstdio": "c",
+        "span": "c",
+        "numbers": "c"
     }
 }

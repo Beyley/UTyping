@@ -2,30 +2,30 @@
                   argv[1]      argv[2] argv[3]              argv[4]
  >fumenrevise.exe hanbetsu.txt lor.txt revised_hanbetsu.txt 0.05
 
-  argv[1] : ���Ƃ̕��ʂ̃t�@�C����
-  argv[2] : list of replays ���L�����t�@�C����
-  argv[3] : �␳���ꂽ���ʂ����̖��O�ŕۑ�
-  argv[4] : ``epsilon'' : �덷���E
-            ���ԍ� epsilon �ȏ�̉�������������Ȃ��ꍇ�̓~�X�Ƃ݂Ȃ�
+  argv[1] : もとの譜面のファイル名
+  argv[2] : list of replays を記したファイル名
+  argv[3] : 補正された譜面をこの名前で保存
+  argv[4] : ``epsilon'' : 誤差限界
+            時間差 epsilon 以上の音符しか見つからない場合はミスとみなす
 
-  argv[2] �̊e�s�ɂ̓��v���C�̃t�@�C�����������D1 �s�� 1 �D�ő� 10 �D
-
-
-
-  ���v���C�̓f�o�b�O���[�h�ō�������̂��g�p���邱�Ƃ������������܂��D
-  �i���ʂ̊e�����ɑ΂����v���C���� 1 �̉�����Ή����������̂Łj
-  �i���Ȃ݂ɂ��̃v���O�����̓��v���C�̕������͓ǂ�ł܂���j
+  argv[2] の各行にはリプレイのファイル名を書く．1 行に 1 個．最大 10 個．
 
 
-  �u���ߐ��v�u�����v�u�ł��؂�_�v��
-  ���Ɂu�����v�����ꂽ�Ƃ��ɓ��������ł܂Ƃ߂ďo�͂��܂��D
-  ���������āC�u�����v�̂Ȃ������́u���ߐ��v�u�����v�u�ł��؂�_�v�͂��܂��o�͂���܂���D
-      �Ō�̉����ȍ~�́u���ߐ��v�u�����v�u�ł��؂�_�v�͏o�͂���܂���D
-  �����͎��Ƃŏ������ޕK�v������܂��D
 
-  argv[1] �ɓ������̂́C���ۂ̕��ʂł͂Ȃ�
-  ���̋Ȃ̏��ߐ��E�����������ɂ������̂ɂ��Ă�����
-  ���Ƃ��Ɗy��������܂���D
+  リプレイはデバッグモードで作ったものを使用することを強く推奨します．
+  （譜面の各音符に対しリプレイ中の 1 つの音符を対応させたいので）
+  （ちなみにこのプログラムはリプレイの文字情報は読んでません）
+
+
+  「小節線」「拍線」「打ち切り点」は
+  次に「音符」が現れたときに同じ時刻でまとめて出力します．
+  したがって，「音符」のない時刻の「小節線」「拍線」「打ち切り点」はうまく出力されません．
+      最後の音符以降の「小節線」「拍線」「打ち切り点」は出力されません．
+  これらは手作業で書き込む必要があります．
+
+  argv[1] に入れるものは，実際の譜面ではなく
+  その曲の小節線・拍線を音符にしたものにしておくと
+  あとあと楽かもしれません．
 
 
 -- 
@@ -64,7 +64,7 @@ int main(int args, char* argv[]){
         return 1;
     sscanf(argv[4], "%lf", &epsilon);
 
-    // argv[2] �ɍڂ��Ă��郊�v���C�t�@�C�����J��
+    // argv[2] に載っているリプレイファイルを開く
     for(int i=0; i<30; i++){
         if(fgets(buf, sizeof(buf), pflor) == NULL){
            fprintf(stdout, "%d replays found, no more replays.\r\n", i);
@@ -86,7 +86,7 @@ int main(int args, char* argv[]){
     fclose(pflor);
 
 
-    // ���v���C���J���Ď����f�[�^���i�[�i�����f�[�^�͖����j
+    // リプレイを開いて時刻データを格納（文字データは無視）
     for(int i=0; i<nreplay; i++){
         fprintf(stdout, "[replay file %2d of %2d] ", i+1, nreplay);
 
@@ -108,15 +108,15 @@ int main(int args, char* argv[]){
         iter[i] = 0;
     }
 
-    // ���ʃt�@�C���̊e�s�ɂ��āc�c
+    // 譜面ファイルの各行について……
     waiting_equal = waiting_minus = waiting_slash = waiting_star = false;
   while(fgets(buf, sizeof(buf), pfread) != NULL){
     switch(buf[0]){
-        case '@': // �����t�@�C���w��Ȃ̂ł��̂܂ܒʂ�
+        case '@': // 音声ファイル指定なのでそのまま通す
             fprintf(pfwrite, "%s", buf);
             break;
 
-        case '=': // �����͎��� '+' �ł܂Ƃ߂ď���
+        case '=': // これらは次の '+' でまとめて処理
             waiting_equal = true;
             break;
         case '-': 
@@ -125,12 +125,12 @@ int main(int args, char* argv[]){
         case '/': 
             waiting_slash = true;
             break;
-        case '*': // KanjiLyrics �͋L�����Ă���
+        case '*': // KanjiLyrics は記憶しておく
             waiting_star  = true;
             sscanf(buf+1, "%lf %s", &d, kanjibuf);
             break;
 
-        case '+': // �����̏ꍇ
+        case '+': // 音符の場合
             if(sscanf(buf+1, "%lf %s", &d, buf) == EOF){
                 fprintf(stdout, "error at %lf %s\n", d, buf);
                 break;
@@ -162,7 +162,7 @@ int main(int args, char* argv[]){
             else 
                 d_new = d;
                                     
-            // '=' '-' '*' '/' ���܂Ƃ߂ď���
+            // '=' '-' '*' '/' をまとめて処理
             if(waiting_equal)
                 fprintf(pfwrite, "=%lf\r\n", d_new);
             if(waiting_minus)

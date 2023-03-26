@@ -78,7 +78,6 @@ void CCheck::draw(){
 	}
 	DrawLine(CCHECK_WIDTH, 0, CCHECK_WIDTH, 480, GetColor(32, 32, 32));
 	DrawLine(CCHECK_WIDTH * 2, 0, CCHECK_WIDTH * 2, 480, GetColor(32, 32, 32));
-	DrawString(0, 0, "this is odd that it is not working, i am very suspicious", 0xFFFFFFFF);
 }
 
 void CCheck::drawBar(int i, int y0, int y1){

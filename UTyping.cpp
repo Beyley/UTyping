@@ -309,9 +309,9 @@ int myScreenFlip(){
 	g_check.begin(GetColor(32, 32, 32));
 	ret1 = ClearDrawScreen();
 	g_check.rap(GetColor(16, 16, 16));
-	// if(g_config.f_showProcessTime){
+	if(g_config.f_showProcessTime){
 		g_check.draw();
-	// }
+	}
 	return (ret0 == -1 || ret1 == -1) ? -1 : 0;
 }
 

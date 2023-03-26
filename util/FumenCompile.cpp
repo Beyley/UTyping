@@ -7,21 +7,21 @@
 using namespace std;
 
 struct Info{
-	double speed;	/* 1¬ß‚É‚©‚©‚éŠÔi³Šm‚É‚ÍAl•ª‰¹•„4‚Â‚É‚©‚©‚éŠÔj */
-	vector<int> base;	/* ¡‰½•ª‰¹•„’PˆÊ‚Å“ü—Í‚µ‚Ä‚¢‚é‚© */
+	double speed;	/* 1å°ç¯€ã«ã‹ã‹ã‚‹æ™‚é–“ï¼ˆæ­£ç¢ºã«ã¯ã€å››åˆ†éŸ³ç¬¦4ã¤ã«ã‹ã‹ã‚‹æ™‚é–“ï¼‰ */
+	vector<int> base;	/* ä»Šä½•åˆ†éŸ³ç¬¦å˜ä½ã§å…¥åŠ›ã—ã¦ã„ã‚‹ã‹ */
 	int base_pos;
-	bool base_half;	/* 2•ª‚Ì1‚¸‚Âi‚Şƒ‚[ƒh‚É“ü‚Á‚Ä‚¢‚é‚© */
+	bool base_half;	/* 2åˆ†ã®1ãšã¤é€²ã‚€ãƒ¢ãƒ¼ãƒ‰ã«å…¥ã£ã¦ã„ã‚‹ã‹ */
 	double time;
-	int beat_nu, beat_de;	/* ˆê¬ß‚Ì•ªq/•ª•ê */
-	int beat_int;	/* Œ»İ‚Ì””A’[” */
+	int beat_nu, beat_de;	/* ä¸€å°ç¯€ã®åˆ†å­/åˆ†æ¯ */
+	int beat_int;	/* ç¾åœ¨ã®æ‹æ•°ã€ç«¯æ•° */
 	double beat_frac;
-	/* ‚½‚¾‚µA’[”‚Í(-1,0]‚Éæ‚éB—áF2.25”–Úi16•ª‰¹•„5ŒÂj‚Í2,-0.75 */
+	/* ãŸã ã—ã€ç«¯æ•°ã¯(-1,0]ã«å–ã‚‹ã€‚ä¾‹ï¼š2.25æ‹ç›®ï¼ˆ16åˆ†éŸ³ç¬¦5å€‹ï¼‰ã¯2,-0.75 */
 };
 
 void setSpeed(Info &info, char *str){
 	int k;
 	double t;
-	/* ®”=À” ‚ğ“Ç‚Ş */
+	/* æ•´æ•°=å®Ÿæ•° ã‚’èª­ã‚€ */
 	char *ptr = strtok(str, "= \t\n");
 	if(ptr == NULL){
 		throw __LINE__;
@@ -38,10 +38,10 @@ void setSpeed(Info &info, char *str){
 	if(n < 1){
 		throw __LINE__;
 	}
-	if(k <= 0){	/* k•ª‰¹•„‚Ìk‚Í³®” */
+	if(k <= 0){	/* kåˆ†éŸ³ç¬¦ã®kã¯æ­£æ•´æ•° */
 		throw __LINE__;
 	}
-	if(t <= 0.0){	/* ƒeƒ“ƒ|‚ª³‚Å‚È‚¢‚Æ‚©‚¨‚©‚µ‚¢ */
+	if(t <= 0.0){	/* ãƒ†ãƒ³ãƒãŒæ­£ã§ãªã„ã¨ã‹ãŠã‹ã—ã„ */
 		throw __LINE__;
 	}
 	info.speed =  60.0 / (t / k);
@@ -57,7 +57,7 @@ void setBase(Info &info, char *str){
 		if(n < 1){
 			throw __LINE__;
 		}
-		if(k <= 0){	/* k•ª‰¹•„‚Ìk‚Í³®” */
+		if(k <= 0){	/* kåˆ†éŸ³ç¬¦ã®kã¯æ­£æ•´æ•° */
 			throw __LINE__;
 		}
 		info.base.push_back(k);
@@ -70,7 +70,7 @@ void setBase(Info &info, char *str){
 
 void setBeat(Info &info, char *str){
 	int nu, de;
-	/* ®”/®” ‚ğ“Ç‚Ş */
+	/* æ•´æ•°/æ•´æ•° ã‚’èª­ã‚€ */
 	char *ptr = strtok(str, "/ \t\n");
 	if(ptr == NULL){
 		throw __LINE__;
@@ -79,7 +79,7 @@ void setBeat(Info &info, char *str){
 	if(n < 1){
 		throw __LINE__;
 	}
-	if(nu <= 0){	/*  0ˆÈ‰º‚Å”q‰ğœ */
+	if(nu <= 0){	/*  0ä»¥ä¸‹ã§æ‹å­è§£é™¤ */
 		info.beat_nu = 0;
 		info.beat_de = 0;
 		info.beat_int = 0;
@@ -94,13 +94,13 @@ void setBeat(Info &info, char *str){
 	if(n < 1){
 		throw __LINE__;
 	}
-	if(de <= 0){	/* •ª•ê‚Í³®” */
+	if(de <= 0){	/* åˆ†æ¯ã¯æ­£æ•´æ•° */
 		throw __LINE__;
 	}
 	
 	ptr = strtok(NULL, " \t\n");
 	if(ptr == NULL){
-		info.beat_int = 0;	/* ˆÊ’u‚ğİ’è‚µ‚È‚¢ê‡A0”–Ú‚É‚È‚é */
+		info.beat_int = 0;	/* ä½ç½®ã‚’è¨­å®šã—ãªã„å ´åˆã€0æ‹ç›®ã«ãªã‚‹ */
 		info.beat_frac = 0.0;
 	}else{
 		double d;
@@ -132,14 +132,14 @@ void timeAdd(Info &info, vector<pair<double, int> > &timeArray){
 	}
 	double dTime, dBeat;
 	dTime = length * info.speed;
-	if(info.beat_de > 0){	/* ”q‚ª’è‹`‚³‚ê‚Ä‚¢‚é */
+	if(info.beat_de > 0){	/* æ‹å­ãŒå®šç¾©ã•ã‚Œã¦ã„ã‚‹ */
 		dBeat = length * info.beat_de;
-		while(info.beat_frac + dBeat > -0.001){	/* Œë·‚ªˆê‰‹C‚É‚È‚éB0.999”ˆÈ~‚Éƒeƒ“ƒ|‚ª•Ï‚í‚é‚±‚Æ‚Í‚Ü‚¸‚È‚¢‚¾‚ë‚¤B */
+		while(info.beat_frac + dBeat > -0.001){	/* èª¤å·®ãŒä¸€å¿œæ°—ã«ãªã‚‹ã€‚0.999æ‹ä»¥é™ã«ãƒ†ãƒ³ãƒãŒå¤‰ã‚ã‚‹ã“ã¨ã¯ã¾ãšãªã„ã ã‚ã†ã€‚ */
 			timeArray.push_back(make_pair(
-				info.time - info.speed * (info.beat_frac / info.beat_de),	/* info.time ‚©‚ç‘«‚è‚È‚¢•ª‘‚â‚·ibeat_frac‚Í•‰j */
+				info.time - info.speed * (info.beat_frac / info.beat_de),	/* info.time ã‹ã‚‰è¶³ã‚Šãªã„åˆ†å¢—ã‚„ã™ï¼ˆbeat_fracã¯è² ï¼‰ */
 				(info.beat_int == 0) ? -1 : -2));
 			
-			info.time += info.speed / info.beat_de;	/* ˆê”•ªŠÔ‚ği‚ß‚é */
+			info.time += info.speed / info.beat_de;	/* ä¸€æ‹åˆ†æ™‚é–“ã‚’é€²ã‚ã‚‹ */
 			//length -= 1.0 / info.beat_de;
 			dTime -= info.speed / info.beat_de;
 			
@@ -157,17 +157,17 @@ void timeAdd(Info &info, vector<pair<double, int> > &timeArray){
 
 void processCommand(char *str, Info &info){
 	switch(str[0]){
-	case 't':	/* t4=120 : l•ª‰¹•„‚ªˆê•ª‚É120ŒÂ */
+	case 't':	/* t4=120 : å››åˆ†éŸ³ç¬¦ãŒä¸€åˆ†ã«120å€‹ */
 		setSpeed(info, str + 1);
 		break;
-	case 'b':	/* “ü—Í‚·‚én•ª‰¹•„‚Ìn‚ğİ’è */
-	case 'l':	/* “ü—Í‚·‚én•ª‰¹•„‚Ìn‚ğİ’è */
+	case 'b':	/* å…¥åŠ›ã™ã‚‹nåˆ†éŸ³ç¬¦ã®nã‚’è¨­å®š */
+	case 'l':	/* å…¥åŠ›ã™ã‚‹nåˆ†éŸ³ç¬¦ã®nã‚’è¨­å®š */
 		setBase(info, str + 1);
 		break;
-	case 'B':	/* ”q‚ğİ’èi—áFB4/4jAB0‚Å‰ğœ */
+	case 'B':	/* æ‹å­ã‚’è¨­å®šï¼ˆä¾‹ï¼šB4/4ï¼‰ã€B0ã§è§£é™¤ */
 		setBeat(info, str + 1);
 		break;
-	case 'r':	/* r0.3‚Å0.3•bi‚ß‚é */
+	case 'r':	/* r0.3ã§0.3ç§’é€²ã‚ã‚‹ */
 		{
 		double t;
 		int n = sscanf(str + 1, "%lf", &t);
@@ -185,13 +185,13 @@ void processCommand(char *str, Info &info){
 int main1(char *fileName){
 	char directoryName[256];
 	strcpy(directoryName, fileName);
-	for(int i = strlen(directoryName) - 1; i >= 0; i--){	/* Œã‚ë‚©‚ç‚½‚Ç‚é */
-		if(directoryName[i] == '/' || directoryName[i] == '\\'){	/* '/'‚â'\'‚ªŒ»‚ê‚½‚ç */
-			directoryName[i + 1] = '\0';	/* ‚»‚±‚Ü‚Å‚È‚Ì‚ÅAŸ‚ğ'\0'‚É */
+	for(int i = strlen(directoryName) - 1; i >= 0; i--){	/* å¾Œã‚ã‹ã‚‰ãŸã©ã‚‹ */
+		if(directoryName[i] == '/' || directoryName[i] == '\\'){	/* '/'ã‚„'\'ãŒç¾ã‚ŒãŸã‚‰ */
+			directoryName[i + 1] = '\0';	/* ãã“ã¾ã§ãªã®ã§ã€æ¬¡ã‚’'\0'ã« */
 			goto L2;
 		}
 	}
-	/* ÅŒã‚Ü‚ÅŒ»‚ê‚È‚©‚Á‚½‚ç */
+	/* æœ€å¾Œã¾ã§ç¾ã‚Œãªã‹ã£ãŸã‚‰ */
 	directoryName[0] = '\0';
 L2:
 	
@@ -202,8 +202,8 @@ L2:
 	}
 	
 	Info info;
-	info.speed = -1.0;	/* 1¬ß‚É‚©‚©‚éŠÔ */
-	info.base.clear();	/* ¡‰½•ª‰¹•„’PˆÊ‚Å“ü—Í‚µ‚Ä‚¢‚é‚© */
+	info.speed = -1.0;	/* 1å°ç¯€ã«ã‹ã‹ã‚‹æ™‚é–“ */
+	info.base.clear();	/* ä»Šä½•åˆ†éŸ³ç¬¦å˜ä½ã§å…¥åŠ›ã—ã¦ã„ã‚‹ã‹ */
 	info.base_pos = 0;
 	info.base_half = false;
 	info.time = 0.0;
@@ -211,14 +211,14 @@ L2:
 	info.beat_nu = 0;
 	info.beat_de = 0;
 	
-	info.beat_int = 0;	/* Å‰‚Í0”–Ú‚Æ‚·‚é */
+	info.beat_int = 0;	/* æœ€åˆã¯0æ‹ç›®ã¨ã™ã‚‹ */
 	info.beat_frac = 0.0;
 	
 	vector<pair<double, int> > timeArray;
-		/* int‚ÍA0:‹æØ‚è, 1:‘Å‚Â‰ÌŒ, 2:•\¦‚·‚é‰ÌŒ */
-		/* 3:1‚Æ2‚ğŒ“‚Ë‚é, -1:¬ßü, -2:u”üv */
-	vector<string> lyricsArray;	/* ‘Å‚Â‰ÌŒi“Ç‚İ•ûj */
-	vector<string> lyricsKanjiArray;	/* —¬‚ê‚é•¶š‚Æ•Ê‚É•\¦‚·‚é‰ÌŒ */
+		/* intã¯ã€0:åŒºåˆ‡ã‚Š, 1:æ‰“ã¤æ­Œè©, 2:è¡¨ç¤ºã™ã‚‹æ­Œè© */
+		/* 3:1ã¨2ã‚’å…¼ã­ã‚‹, -1:å°ç¯€ç·š, -2:ã€Œæ‹ç·šã€ */
+	vector<string> lyricsArray;	/* æ‰“ã¤æ­Œè©ï¼ˆèª­ã¿æ–¹ï¼‰ */
+	vector<string> lyricsKanjiArray;	/* æµã‚Œã‚‹æ–‡å­—ã¨åˆ¥ã«è¡¨ç¤ºã™ã‚‹æ­Œè© */
 	
 	char buf[1024];
 	
@@ -230,32 +230,32 @@ L2:
 		buf[len-1] = '\0';
 	}
 	char outFileName[256];
-	sprintf(outFileName, "%s%s", directoryName, buf);	/* 1s–Ú‚Åo—Íƒtƒ@ƒCƒ‹‚ğw’è */
-	//sprintf(outFileName, "%s%s-debug.txt", directoryName, buf);	/* 1s–Ú‚Åo—Íƒtƒ@ƒCƒ‹‚ğw’è */
-	printf("%s‚Éo—Í‚µ‚Ü‚·B\n", outFileName);
+	sprintf(outFileName, "%s%s", directoryName, buf);	/* 1è¡Œç›®ã§å‡ºåŠ›ãƒ•ã‚¡ã‚¤ãƒ«ã‚’æŒ‡å®š */
+	//sprintf(outFileName, "%s%s-debug.txt", directoryName, buf);	/* 1è¡Œç›®ã§å‡ºåŠ›ãƒ•ã‚¡ã‚¤ãƒ«ã‚’æŒ‡å®š */
+	printf("%sã«å‡ºåŠ›ã—ã¾ã™ã€‚\n", outFileName);
 	freopen(outFileName, "w", stdout);
 	
 	if(fgets(buf, sizeof(buf), fp) == NULL){
 		throw __LINE__;
 	}
-	printf("@%s", buf);	/* 2s–Ú‚Í‹Èƒtƒ@ƒCƒ‹‚ğ‘‚­‚Ì‚Å‚»‚Ì‚Ü‚Üo—Í */
+	printf("@%s", buf);	/* 2è¡Œç›®ã¯æ›²ãƒ•ã‚¡ã‚¤ãƒ«ã‚’æ›¸ãã®ã§ãã®ã¾ã¾å‡ºåŠ› */
 	
 	while(fgets(buf, sizeof(buf), fp) != NULL){
 		switch(buf[0]){
 		case 'e':
-			goto L1;	/* ˆÈ~‚Ìs‚ğ–³‹ */
-		case '#':	/* ƒRƒƒ“ƒgs */
+			goto L1;	/* ä»¥é™ã®è¡Œã‚’ç„¡è¦– */
+		case '#':	/* ã‚³ãƒ¡ãƒ³ãƒˆè¡Œ */
 			break;
-		case '@':	/* 1s–½—ß */
+		case '@':	/* 1è¡Œå‘½ä»¤ */
 			processCommand(buf + 1, info);
 			break;
-		case '\'':	/* ‘Å‚Â‰ÌŒi”¼ŠpƒXƒy[ƒXAƒ^ƒu‹æØ‚èj */
+		case '\'':	/* æ‰“ã¤æ­Œè©ï¼ˆåŠè§’ã‚¹ãƒšãƒ¼ã‚¹ã€ã‚¿ãƒ–åŒºåˆ‡ã‚Šï¼‰ */
 			for(char *ptr = strtok(buf + 1, " \t\n"); ptr != NULL;
 					ptr = strtok(NULL, " \t\n")){
 				lyricsArray.push_back(string(ptr));
 			}
 			break;
-		case '\"':	/* •\¦‚·‚é‰ÌŒiƒ^ƒu‹æØ‚èji‚Ä‚©A•’Ê‹æØ‚ç‚È‚¢j */
+		case '\"':	/* è¡¨ç¤ºã™ã‚‹æ­Œè©ï¼ˆã‚¿ãƒ–åŒºåˆ‡ã‚Šï¼‰ï¼ˆã¦ã‹ã€æ™®é€šåŒºåˆ‡ã‚‰ãªã„ï¼‰ */
 			for(char *ptr = strtok(buf + 1, "\t\n"); ptr != NULL;
 					ptr = strtok(NULL, "\t\n")){
 				lyricsKanjiArray.push_back(string(ptr));
@@ -264,21 +264,21 @@ L2:
 		default:
 			for(char *ptr = buf; *ptr != '\0'; ptr++){
 				switch(*ptr){
-				case '[':	/* ƒRƒ}ƒ“ƒhŠJn */
+				case '[':	/* ã‚³ãƒãƒ³ãƒ‰é–‹å§‹ */
 					{
 						ptr++;
-						char *ptrCmd = ptr;	/* ƒRƒ}ƒ“ƒh‚ÌŠJnˆÊ’u */
+						char *ptrCmd = ptr;	/* ã‚³ãƒãƒ³ãƒ‰ã®é–‹å§‹ä½ç½® */
 						while(*ptr != ']'){
-							if(*ptr == '\0'){	/* ƒRƒ}ƒ“ƒh‚ª•Â‚¶‚ç‚ê‚È‚©‚Á‚½ */
+							if(*ptr == '\0'){	/* ã‚³ãƒãƒ³ãƒ‰ãŒé–‰ã˜ã‚‰ã‚Œãªã‹ã£ãŸ */
 								throw __LINE__;
 							}
 							ptr++;
 						}
-						*ptr = '\0';	/* ']'‚ğ'\0'‚É‘‚«Š·‚¦‚é */
+						*ptr = '\0';	/* ']'ã‚’'\0'ã«æ›¸ãæ›ãˆã‚‹ */
 						processCommand(ptrCmd, info);
 					}
 					break;
-				case ']':	/* ƒRƒ}ƒ“ƒh‚ğŠJ‚¢‚Ä‚¢‚È‚¢‚Ì‚É•Â‚¶‚é‚ª—ˆ‚½ */
+				case ']':	/* ã‚³ãƒãƒ³ãƒ‰ã‚’é–‹ã„ã¦ã„ãªã„ã®ã«é–‰ã˜ã‚‹ãŒæ¥ãŸ */
 					throw __LINE__;
 				case '{':
 					if(info.base_half){
@@ -295,29 +295,29 @@ L2:
 					}
 					info.base_half=false;
 					break;
-				case '*':	/* ‰ÌŒ‚Ì1‰¹ß–Ú */
-					/* ‰ÌŒ‚Ì‹æØ‚è‚ğ“ü‚ê‚ÄA•\¦‰ÌŒ‚Æ‰ÌŒ‚ğ“ü‚ê‚ÄAŠÔ‚ğŒo‰ß‚³‚¹‚é */
+				case '*':	/* æ­Œè©ã®1éŸ³ç¯€ç›® */
+					/* æ­Œè©ã®åŒºåˆ‡ã‚Šã‚’å…¥ã‚Œã¦ã€è¡¨ç¤ºæ­Œè©ã¨æ­Œè©ã‚’å…¥ã‚Œã¦ã€æ™‚é–“ã‚’çµŒéã•ã›ã‚‹ */
 					timeArray.push_back(make_pair(info.time, 0));
 					timeArray.push_back(make_pair(info.time, 3));
 					timeAdd(info, timeArray);
 					break;
-				case '%':	/* •\¦‚·‚é‰ÌŒn‚Ü‚è‚¾‚ªA1‰¹ß–Ú‚Å‚È‚¢ */
-					/* ‰ÌŒ‚Ì‹æØ‚è‚ğ“ü‚ê‚ÄA•\¦‰ÌŒ‚ğ“ü‚ê‚ÄAŠÔ‚ğŒo‰ß‚³‚¹‚é */
+				case '%':	/* è¡¨ç¤ºã™ã‚‹æ­Œè©å§‹ã¾ã‚Šã ãŒã€1éŸ³ç¯€ç›®ã§ãªã„ */
+					/* æ­Œè©ã®åŒºåˆ‡ã‚Šã‚’å…¥ã‚Œã¦ã€è¡¨ç¤ºæ­Œè©ã‚’å…¥ã‚Œã¦ã€æ™‚é–“ã‚’çµŒéã•ã›ã‚‹ */
 					timeArray.push_back(make_pair(info.time, 0));
 					timeArray.push_back(make_pair(info.time, 2));
 					timeAdd(info, timeArray);
 					break;
-				case '+':	/* ‰ÌŒ‚Ì2‰¹ß–ÚˆÈ~ */
-					/* ‰ÌŒ‚ğ“ü‚ê‚ÄAŠÔ‚ğŒo‰ß‚³‚¹‚é */
+				case '+':	/* æ­Œè©ã®2éŸ³ç¯€ç›®ä»¥é™ */
+					/* æ­Œè©ã‚’å…¥ã‚Œã¦ã€æ™‚é–“ã‚’çµŒéã•ã›ã‚‹ */
 					timeArray.push_back(make_pair(info.time, 1));
 					timeAdd(info, timeArray);
 					break;
-				case '-':	/* ‰½‚à‚È‚¢‚Æ‚±‚ë */
-					/* ŠÔ‚ğŒo‰ß‚³‚¹‚é */
+				case '-':	/* ä½•ã‚‚ãªã„ã¨ã“ã‚ */
+					/* æ™‚é–“ã‚’çµŒéã•ã›ã‚‹ */
 					timeAdd(info, timeArray);
 					break;
-				case '/':	/* Ÿ‚Ì‰ÌŒ‚Ì‘O‚É‘Å‚¿Ø‚ç‚ê‚éê‡ */
-					/* ‰ÌŒ‚Ì‹æØ‚ê‚ğ“ü‚ê‚ÄAŠÔ‚ğŒo‰ß‚³‚¹‚é */
+				case '/':	/* æ¬¡ã®æ­Œè©ã®å‰ã«æ‰“ã¡åˆ‡ã‚‰ã‚Œã‚‹å ´åˆ */
+					/* æ­Œè©ã®åŒºåˆ‡ã‚Œã‚’å…¥ã‚Œã¦ã€æ™‚é–“ã‚’çµŒéã•ã›ã‚‹ */
 					timeArray.push_back(make_pair(info.time, 0));
 					timeAdd(info, timeArray);
 					break;
@@ -327,25 +327,25 @@ L2:
 		}
 	}
 L1:
-	timeArray.push_back(make_pair(info.time, 0));	/* I—¹ŒãA‹æØ‚è‚ğ“ü‚ê‚Ä‚¨‚­ */
+	timeArray.push_back(make_pair(info.time, 0));	/* çµ‚äº†å¾Œã€åŒºåˆ‡ã‚Šã‚’å…¥ã‚Œã¦ãŠã */
 	
-	/* ‚±‚±‚ÅA”CˆÓ‚Ì•\¦‚·‚é‰ÌŒ‘Î‚µ‚ÄA‹æØ‚è‚ªŒã‚ë‚É‘¶İ‚µA‚»‚ê‚ª•\¦‚·‚é‰ÌŒ‚ÌI‚í‚è‚Æ‚È‚éB */
+	/* ã“ã“ã§ã€ä»»æ„ã®è¡¨ç¤ºã™ã‚‹æ­Œè©å¯¾ã—ã¦ã€åŒºåˆ‡ã‚ŠãŒå¾Œã‚ã«å­˜åœ¨ã—ã€ãã‚ŒãŒè¡¨ç¤ºã™ã‚‹æ­Œè©ã®çµ‚ã‚ã‚Šã¨ãªã‚‹ã€‚ */
 	
 	vector<string>::iterator itrLyrics = lyricsArray.begin();
 	vector<string>::iterator itrKanjiLyrics = lyricsKanjiArray.begin();
-	bool flag = true;	/* ’¼‘O‚ª‹æØ‚è‚¾‚Á‚½‚©‚Ìƒtƒ‰ƒO */
-	/* Å‰‚É‹æØ‚è‚È‚ñ‚Ä‚¢‚ç‚È‚¢‚Ì‚ÅAtrue‚ÅOK */
+	bool flag = true;	/* ç›´å‰ãŒåŒºåˆ‡ã‚Šã ã£ãŸã‹ã®ãƒ•ãƒ©ã‚° */
+	/* æœ€åˆã«åŒºåˆ‡ã‚Šãªã‚“ã¦ã„ã‚‰ãªã„ã®ã§ã€trueã§OK */
 	for(vector<pair<double, int> >::iterator itr = timeArray.begin();
 			itr != timeArray.end(); itr++){
-		if((*itr).second <= -1){	/* ¬ßü‚È‚Ç‚ª“ü‚éŠÔ */
-			if((*itr).second == -1){	/* ¬ßü */
+		if((*itr).second <= -1){	/* å°ç¯€ç·šãªã©ãŒå…¥ã‚‹æ™‚é–“ */
+			if((*itr).second == -1){	/* å°ç¯€ç·š */
 				printf("=");
-			}else{	/* ”ü */
+			}else{	/* æ‹ç·š */
 				printf("-");
 			}
 			printf("%lf\n", (*itr).first);
-		}else if((*itr).second >= 1){	/* ‰ÌŒ‚Ì“ü‚éŠÔ */
-			if((*itr).second & 2){	/* •\¦‚·‚é‰ÌŒ‚Ì“ü‚éŠÔ */
+		}else if((*itr).second >= 1){	/* æ­Œè©ã®å…¥ã‚‹æ™‚é–“ */
+			if((*itr).second & 2){	/* è¡¨ç¤ºã™ã‚‹æ­Œè©ã®å…¥ã‚‹æ™‚é–“ */
 				if(itrKanjiLyrics == lyricsKanjiArray.end()){
 					throw __LINE__;
 				}
@@ -353,15 +353,15 @@ L1:
 				itrKanjiLyrics++;
 				flag = false;
 			}
-			if((*itr).second & 1){	/* ‘Å‚Â‰ÌŒ‚Ì“ü‚éŠÔ */
-				if(itrLyrics == lyricsArray.end()){	/* ‘Å‚Â‰ÌŒ‚ª“ü‚é‚×‚«‚Æ‚±‚ë‚É‰ÌŒ‚ª‚È‚¢ */
+			if((*itr).second & 1){	/* æ‰“ã¤æ­Œè©ã®å…¥ã‚‹æ™‚é–“ */
+				if(itrLyrics == lyricsArray.end()){	/* æ‰“ã¤æ­Œè©ãŒå…¥ã‚‹ã¹ãã¨ã“ã‚ã«æ­Œè©ãŒãªã„ */
 					throw __LINE__;
 				}
 				printf("+%lf %s\n", (*itr).first, (*itrLyrics).c_str());
 				itrLyrics++;
 			}
-		}else{	/* ‰ÌŒ‚Ì‹æØ‚è‚Ì“ü‚éŠÔ */
-			if(!flag){	/* ‹æØ‚è‚ª˜A‘±‚·‚é‚±‚Æ‚ğ–h~ */
+		}else{	/* æ­Œè©ã®åŒºåˆ‡ã‚Šã®å…¥ã‚‹æ™‚é–“ */
+			if(!flag){	/* åŒºåˆ‡ã‚ŠãŒé€£ç¶šã™ã‚‹ã“ã¨ã‚’é˜²æ­¢ */
 				printf("/%lf\n", (*itr).first);
 			}
 			flag = true;
